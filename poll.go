@@ -31,10 +31,8 @@ func (app *application) createPoll(post *model.Post) {
 		return
 	}
 
-	// Создаём уникальный ID голосования
 	pollID := fmt.Sprintf("poll-%d", time.Now().Unix())
 
-	// Создаем запись о голосовании
 	app.polls[pollID] = &Poll{
 		ID:        pollID,
 		Title:     question,
@@ -44,7 +42,6 @@ func (app *application) createPoll(post *model.Post) {
 		Active:    true,
 	}
 
-	// Отправляем сообщение с вопросом голосования и вариантами
 	message := fmt.Sprintf("Голосование '%s' создано! ID: %s\nВарианты:\n", question, pollID)
 	for i, option := range options {
 		message += fmt.Sprintf("%d. %s\n", i+1, option)
@@ -54,7 +51,6 @@ func (app *application) createPoll(post *model.Post) {
 }
 
 func (app *application) vote(post *model.Post) {
-	// Формат команды: @vote-bot голосовать "id" "номер_варианта"
 	parts := strings.Split(post.Message, "\"")
 	if len(parts) < 3 {
 		app.sendMsgToChannel("Ошибка! Формат: @vote-bot голосовать \"ID\" \"номер_варианта\"", post.Id)
@@ -64,7 +60,6 @@ func (app *application) vote(post *model.Post) {
 	pollID := parts[1]
 	optionNumber := parts[3]
 
-	// Преобразуем номер варианта в число
 	optionIndex, err := strconv.Atoi(optionNumber)
 	if err != nil || optionIndex < 1 {
 		app.sendMsgToChannel("Ошибка! Неверный номер варианта.", post.Id)
@@ -82,7 +77,6 @@ func (app *application) vote(post *model.Post) {
 		return
 	}
 
-	// Увеличиваем количество голосов для выбранного варианта
 	poll.Votes[optionIndex]++
 	app.sendMsgToChannel(fmt.Sprintf("Вы проголосовали за вариант %d: %s", optionIndex, poll.Options[optionIndex-1]), post.Id)
 }
@@ -101,7 +95,6 @@ func (app *application) showResults(post *model.Post) {
 		return
 	}
 
-	// Формируем результат голосования
 	result := fmt.Sprintf("Результаты голосования '%s' (ID: %s):\n", poll.Title, pollID)
 	for i, option := range poll.Options {
 		result += fmt.Sprintf("%d. %s: %d голосов\n", i+1, option, poll.Votes[i+1])
