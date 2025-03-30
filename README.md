@@ -15,7 +15,7 @@ git clone https://github.com/KriFinnSher/mm-bot.git
 ```
 2. Перейдите в основную директорию проекта и запустите инстанс Mattermost:
 ```bash
-cd mattermost-bot
+cd mm-bot
 docker-compose up
 ```
 Теперь можете перейти по адресу `http://localhost:8065` и зарегистрировать нового пользователя.
