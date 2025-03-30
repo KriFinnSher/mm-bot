@@ -1,6 +1,6 @@
 {
   "mattermostServer": "http://localhost:8065",
-  "mattermostToken": "1zrkr3upftnefb1ymqgns5s3we",
+  "mattermostToken": "",
   "mattermostTeamName": "VK",
   "mattermostChannel": "Off-Topic"
 }
